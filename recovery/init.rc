@@ -33,6 +33,8 @@ on boot
     hostname localhost
     domainname localdomain
 
+    mount_all /fstab.dlx
+
     class_start default
 
 service choice_fn /sbin/choice_fn

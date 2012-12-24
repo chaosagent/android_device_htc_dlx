@@ -22,10 +22,12 @@ on emmc-fs
     mkdir /data 0771 system system
     mkdir /persist 0771 system system
 
+    mount_all /fstab.dlx
+
     mkdir /devlog 0700 root root
-    devwait emmc@devlog
-    exec /sbin/e2fsck_recvy -p emmc@devlog
-    mount ext4 emmc@devlog /devlog noatime nosuid nodev data=ordered
+#    devwait emmc@devlog
+#    exec /sbin/e2fsck_recvy -p emmc@devlog
+#    mount ext4 emmc@devlog /devlog noatime nosuid nodev data=ordered
 
     mkdir /tombstones 0771 system system
     mkdir /tombstones/mdm 0771 system system
@@ -42,7 +44,7 @@ on emmc-fs
     mkdir /firmware/mdm 0771 system system
     devwait emmc@radio
     mount vfat emmc@radio /firmware/mdm ro shortname=lower
-    exec /system/bin/sh2 /init.qcom.firmware_links.sh /firmware/mdm/image /vendor/firmware "*.mbn *.img"
+#    exec /system/bin/sh2 /init.qcom.firmware_links.sh /firmware/mdm/image /vendor/firmware "*.mbn *.img"
 
     mkdir /data/qcks 0700 root system
     mount tmpfs tmpfs /data/qcks size=20m,mode=0750,gid=1000
@@ -69,21 +71,21 @@ on post-fs-data
 #-SSD_RIL: from Qualcomm socket path
 
     # HTC add: 3LM setting on ICS
-    setprop ro.3lm.production 1
+#    setprop ro.3lm.production 1
 
     # HTC add: 3LM encryption on ICS
-    setprop ro.3lm.legacy_encryption 1
-    mkdir /data/secure 0755 system system
-    mkdir /data/secure/data 0755 system system
-    mount tmpfs tmpfs /data/secure/data mode=0755,gid=1000
+#    setprop ro.3lm.legacy_encryption 1
+#    mkdir /data/secure 0755 system system
+#    mkdir /data/secure/data 0755 system system
+#    mount tmpfs tmpfs /data/secure/data mode=0755,gid=1000
 
-	# HTC add: for customization wizard folder
-	mkdir /data/data/cw 0770 root root
-	mkdir /data/data/cwtemp 0770 root root
+#	# HTC add: for customization wizard folder
+#	mkdir /data/data/cw 0770 root root
+#	mkdir /data/data/cwtemp 0770 root root
 
-	# HTC add: double check the perms of /data/data for already existed case
-	chown system system /data/data
-	chmod 0771 /data/data
+#	# HTC add: double check the perms of /data/data for already existed case
+#	chown system system /data/data
+#	chmod 0771 /data/data
 
 	# If there is no fs-post-data action in the init.<device>.rc file, you
 	# must uncomment this line, otherwise encrypted filesystems
@@ -170,41 +172,41 @@ service mfgsrv /sbin/mfgsrv -i -t /dev/ttyHSL0 -t /dev/ttyHSUSB1
     group root
     disabled
 
-service kickstart /system/bin/qcks -1 modem_st1 -2 modem_st2 -3 radio_config -i /vendor/firmware/
-    class core
-    user root
-    oneshot
-    disabled
+#service kickstart /system/bin/qcks -1 modem_st1 -2 modem_st2 -3 radio_config -i /vendor/firmware/
+#    class core
+#    user root
+#    oneshot
+#    disabled
 
-service htc_ebdlogd /sbin/htc_ebdlogd_recvy -s -k -F /sbin -p V
-    class core
-    user root
-    disabled
-    oneshot
-    ioprio idle 0
+#service htc_ebdlogd /sbin/htc_ebdlogd_recvy -s -k -F /sbin -p V
+#    class core
+#    user root
+#    disabled
+#    oneshot
+#    ioprio idle 0
 
-service mfg_htcqxdm2sd /sbin/mfg_htcqxdm2sd -d 1
-    disabled
-    oneshot
+#service mfg_htcqxdm2sd /sbin/mfg_htcqxdm2sd -d 1
+#    disabled
+#    oneshot
 
 service servicemanager /system/bin/servicemanager
     critical
     oneshot
     disabled
 
-service media /system/bin/mediaserver
-    class main
-    user root
-    disabled
-    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc
-    ioprio rt 4
+#service media /system/bin/mediaserver
+#    class main
+#    user root
+#    disabled
+#    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc
+#    ioprio rt 4
 
 on property:ro.bootmode=power_test
     devwait emmc@system
     mount ext4 emmc@system /system ro
 
 on property:ro.bootmode=recovery
-    devwait emmc@system
+#    devwait emmc@system
 #    mount ext4 emmc@system /system ro
 #    umount /system
     # we will remap this as /mnt/sdcard with the sdcard fuse tool
@@ -213,7 +215,7 @@ on property:ro.bootmode=recovery
     mount ext4 emmc@userdata /data
     mkdir /data/media 0775 media_rw media_rw
     chown media_rw media_rw /data/media
-    umount /data
+#    umount /data
 
 on property:ro.mfgkernel=1
     write /sys/power/wake_lock mfgkernel

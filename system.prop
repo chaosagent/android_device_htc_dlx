@@ -1,9 +1,9 @@
 #
 # ADDITIONAL_DEFAULT_PROPERTIES
 #
-ro.secure=1
-ro.allow.mock.location=0
-ro.debuggable=0
+ro.secure=0
+ro.allow.mock.location=1
+ro.debuggable=1
 ro.ril.oem.ecclist=911,*911,#911
 ro.ril.enable.a52=0
 ro.ril.enable.a53=1
